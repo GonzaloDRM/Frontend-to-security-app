@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - MCP App</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <div class="logo-icon">🔐</div>
+            <h1>Bienvenido</h1>
+            <p class="subtitle">Inicia sesión para continuar</p>
+        </div>
+
+        <form id="login-form">
+            <div class="form-group">
+                <label for="username">Usuario</label>
+                <div class="input-wrapper">
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        placeholder="Ingresa tu usuario"
+                        required 
+                        autofocus
+                    >
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <div class="input-wrapper">
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="Ingresa tu contraseña"
+                        required
+                    >
+                </div>
+            </div>
+
+            <button type="submit" class="btn" id="submit-btn">
+                <span id="btn-text">Iniciar Sesión</span>
+                <div class="loading-spinner" id="loading-spinner"></div>
+            </button>
+
+            <div id="error-message"></div>
+        </form>
+
+        <div class="divider">
+            <span>O continúa con</span>
+        </div>
+
+        <div class="social-buttons">
+            <a href="http://localhost:8080/oauth2/authorization/google" class="social-btn google">
+                <span class="social-icon">🔵</span>
+                <span>Google</span>
+            </a>
+            
+            <a href="http://localhost:8080/oauth2/authorization/github" class="social-btn github">
+                <span class="social-icon">⚫</span>
+                <span>GitHub</span>
+            </a>
+        </div>
+
+        <div class="footer-link">
+            ¿No tienes cuenta? <a href="register.html">Regístrate aquí</a>
+        </div>
+    </div>
+
+    <script src="js/login.js"></script>
+</body>
+</html>
