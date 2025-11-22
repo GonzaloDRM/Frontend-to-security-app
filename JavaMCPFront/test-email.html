@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Email - MCP App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .config-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .config-item:last-child {
+            border-bottom: none;
+        }
+
+        .config-label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .config-value {
+            color: #333;
+            font-family: monospace;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .loading {
+            text-align: center;
+            color: #667eea;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .loading.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Test de Email</h1>
+        <p class="subtitle">Diagnóstico de configuración SMTP</p>
+
+        <!-- Configuración actual -->
+        <div class="section">
+            <h2>📋 Configuración Actual</h2>
+            <div id="config">
+                <div class="loading show">Cargando configuración...</div>
+            </div>
+        </div>
+
+        <!-- Formulario de test -->
+        <div class="section">
+            <h2>📧 Enviar Email de Prueba</h2>
+            <form id="testForm">
+                <div class="form-group">
+                    <label for="email">Email destinatario:</label>
+                    <input type="email" id="email" name="email" required 
+                           placeholder="ejemplo@gmail.com">
+                </div>
+                <button type="submit" id="sendBtn">Enviar Email de Prueba</button>
+                <div class="loading" id="sending"></div>
+                <div class="message" id="message"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Cargar configuración al inicio
+        async function loadConfig() {
+            try {
+                const response = await fetch('http://localhost:8080/api/test/email-config');
+                const data = await response.json();
+                
+                const configDiv = document.getElementById('config');
+                configDiv.innerHTML = `
+                    <div class="config-item">
+                        <span class="config-label">Host:</span>
+                        <span class="config-value">${data.host}</span>
+                    </div>
+                    <div class="config-item">
+                        <span class="config-label">Port:</span>
+                        <span class="config-value">${data.port}</span>
+                    </div>
+                    <div class="config-item">
+                        <span class="config-label">Username:</span>
+                        <span class="config-value">${data.username}</span>
+                    </div>
+                    <div class="config-item">
+                        <span class="config-label">Configured:</span>
+                        <span class="config-value">${data.configured ? '✅ Yes' : '❌ No'}</span>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error cargando configuración:', error);
+                document.getElementById('config').innerHTML = 
+                    '<div style="color: red;">❌ Error cargando configuración</div>';
+            }
+        }
+
+        // Enviar email de prueba
+        document.getElementById('testForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const sendBtn = document.getElementById('sendBtn');
+            const loading = document.getElementById('sending');
+            const message = document.getElementById('message');
+            
+            // Reset
+            message.className = 'message';
+            message.textContent = '';
+            
+            // Show loading
+            sendBtn.disabled = true;
+            loading.textContent = '📤 Enviando email...';
+            loading.classList.add('show');
+            
+            try {
+                const response = await fetch('http://localhost:8080/api/test/send-test-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ to: email })
+                });
+                
+                const data = await response.json();
+                
+                loading.classList.remove('show');
+                
+                if (data.success) {
+                    message.className = 'message success show';
+                    message.textContent = '✅ ' + data.message;
+                } else {
+                    message.className = 'message error show';
+                    message.innerHTML = `❌ <strong>${data.error}</strong><br>${data.message}`;
+                    
+                    if (data.cause) {
+                        message.innerHTML += `<br><small>Causa: ${data.cause}</small>`;
+                    }
+                }
+            } catch (error) {
+                loading.classList.remove('show');
+                message.className = 'message error show';
+                message.textContent = '❌ Error de conexión: ' + error.message;
+            } finally {
+                sendBtn.disabled = false;
+            }
+        });
+
+        // Cargar configuración al iniciar
+        loadConfig();
+    </script>
+</body>
+</html>

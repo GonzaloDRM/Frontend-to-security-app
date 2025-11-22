@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar Email - MCP App</title>
+    <link rel="stylesheet" href="css/verify-email.css">
+</head>
+<body>
+    <div class="verify-container">
+        <div class="logo">
+            <div class="logo-icon">📧</div>
+            <h1>Verifica tu Email</h1>
+            <p class="subtitle" id="subtitle">Ingresa el código que enviamos a tu correo</p>
+        </div>
+
+        <div class="email-info" id="email-info"></div>
+
+        <form id="verify-form">
+            <div class="code-input-group">
+                <input type="text" maxlength="1" class="code-input" id="digit-1" autofocus>
+                <input type="text" maxlength="1" class="code-input" id="digit-2">
+                <input type="text" maxlength="1" class="code-input" id="digit-3">
+                <input type="text" maxlength="1" class="code-input" id="digit-4">
+                <input type="text" maxlength="1" class="code-input" id="digit-5">
+                <input type="text" maxlength="1" class="code-input" id="digit-6">
+            </div>
+
+            <button type="submit" class="btn" id="submit-btn">
+                <span id="btn-text">Verificar Código</span>
+                <div class="loading-spinner" id="loading-spinner"></div>
+            </button>
+
+            <div id="message"></div>
+        </form>
+
+        <div class="resend-section">
+            <p>¿No recibiste el código?</p>
+            <button onclick="resendCode()" class="btn-link" id="resend-btn">
+                Reenviar código
+            </button>
+            <div id="resend-timer"></div>
+        </div>
+
+        <div class="footer-link">
+            <a href="login.html">← Volver al login</a>
+        </div>
+    </div>
+
+    <script src="js/verify-email.js"></script>
+</body>
+</html>

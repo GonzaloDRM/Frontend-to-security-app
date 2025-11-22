@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - MCP App</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">🚀</div>
+            <h2>MCP App</h2>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" data-section="overview">
+                <span class="nav-icon">📊</span>
+                <span>Overview</span>
+            </a>
+            <a href="#" class="nav-item" data-section="profile">
+                <span class="nav-icon">👤</span>
+                <span>Mi Perfil</span>
+            </a>
+            <a href="#" class="nav-item" data-section="settings">
+                <span class="nav-icon">⚙️</span>
+                <span>Configuración</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <button onclick="logout()" class="btn-logout">
+                <span>🚪</span>
+                <span>Cerrar Sesión</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <h1 id="page-title">Dashboard</h1>
+                <p id="page-subtitle">Bienvenido de vuelta</p>
+            </div>
+            
+            <div class="header-right">
+                <div class="user-info" id="user-info">
+                    <div class="user-avatar" id="user-avatar">?</div>
+                    <div class="user-details">
+                        <p class="user-name" id="user-name">Cargando...</p>
+                        <p class="user-role" id="user-role">Usuario</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Overview Section -->
+        <section id="overview-section" class="content-section active">
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue">👤</div>
+                    <div class="stat-info">
+                        <p class="stat-label">Usuario Activo</p>
+                        <p class="stat-value" id="stat-username">-</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon purple">🎭</div>
+                    <div class="stat-info">
+                        <p class="stat-label">Rol</p>
+                        <p class="stat-value" id="stat-role">-</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon green">✅</div>
+                    <div class="stat-info">
+                        <p class="stat-label">Estado</p>
+                        <p class="stat-value">Autenticado</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon orange">🔐</div>
+                    <div class="stat-info">
+                        <p class="stat-label">Proveedor</p>
+                        <p class="stat-value" id="stat-provider">-</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Info Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>📋 Información del Usuario</h3>
+                    <button onclick="refreshUserInfo()" class="btn-refresh">🔄</button>
+                </div>
+                <div class="card-body">
+                    <div id="user-details" class="user-details-content">Cargando...</div>
+                </div>
+            </div>
+
+            <!-- Protected Data Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>🔒 Datos Protegidos</h3>
+                    <button onclick="refreshProtectedData()" class="btn-refresh">🔄</button>
+                </div>
+                <div class="card-body">
+                    <div id="protected-data" class="protected-data-content">Cargando...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile-section" class="content-section">
+            <div class="card">
+                <div class="card-header">
+                    <h3>👤 Mi Perfil</h3>
+                </div>
+                <div class="card-body">
+                    <div class="profile-info" id="profile-info">
+                        <p>Información de perfil...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings Section -->
+        <section id="settings-section" class="content-section">
+            <div class="card">
+                <div class="card-header">
+                    <h3>⚙️ Configuración</h3>
+                </div>
+                <div class="card-body">
+                    <div class="settings-options">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>🔔 Notificaciones</h4>
+                                <p>Recibir notificaciones por email</p>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>🌙 Modo Oscuro</h4>
+                                <p>Siempre activado</p>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" checked disabled>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
